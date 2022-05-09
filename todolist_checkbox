@@ -1,0 +1,107 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td><input type="text" id="unm"/></td>
+                <td><button id="btn1" onclick="grid()">Submit</button>
+                    <button id="btn2" hidden='true' onclick="update_data()">Update</button>
+                </td>
+            </tr>
+        </table>
+        <strikthrouug></strikthrouug>
+        <b id="data"></b>
+        <table id="show">
+
+        </table>
+        <table id="deleteData"></table>
+    </body>
+        <script>
+            
+            var id="";
+            var deleteArr=[];
+            function grid(flag)
+            {
+                var name=document.getElementById("unm").value;
+                let arr=JSON.parse(sessionStorage.getItem("list"));
+               
+                if(name=="")
+                {
+                    alert("Enter your name");
+                }
+                else
+                {
+                    if(arr==null)
+                    {
+                        var data=[name];                            sessionStorage.setItem("list",JSON.stringify(data));
+                    }
+                    else
+                    {
+                        arr.push(name);
+                        sessionStorage.setItem("list",JSON.stringify(arr));
+                    }
+                }
+                document.getElementById("unm").value="";
+                show();
+            }
+
+            function show()
+            {
+                let arr=JSON.parse(sessionStorage.getItem("list"));
+                if(arr!=null)
+                {
+                    var count=0;
+                    let html="";
+                    for(x in arr)
+                    {
+                        html+="<tr><td><input type='checkbox' id='deletedata' onchange='checkBoxChecked("+count+")'/></td><td><input type='text' id="+count+" name='edittext1' disabled='true' value="+arr[x]+"></td><td><button id='bedit' onclick='edit_data("+count+")'>EDIT</button></td></tr>";
+                        count++;
+                    }
+                    document.getElementById("show").innerHTML=html;
+                }
+            }
+            function edit_data(count)
+            {
+                let arr=JSON.parse(sessionStorage.getItem('list')); 
+                let updatelist = prompt("Please update your List", arr[count]);
+                if(updatelist!=null && updatelist!='')
+                {
+                    arr[count]=updatelist;
+                    sessionStorage.setItem("list",JSON.stringify(arr));
+                }
+                show();
+            }
+
+            function deleteCheckboxChecked(count)
+            {
+                let arr=JSON.parse(sessionStorage.getItem("list"));
+                arr.push(deleteArr[count]);
+                sessionStorage.setItem('list',JSON.stringify(arr));
+                deleteArr.splice(count,1);
+                deleteview();
+            }
+
+            function checkBoxChecked(count)
+            {
+                let arr=JSON.parse(sessionStorage.getItem('list'));
+                deleteArr.push(arr[count]);
+                arr.splice(count,1);
+                sessionStorage.setItem('list',JSON.stringify(arr));
+                deleteview();         
+            }
+
+            function deleteview()
+            {   
+                let count=0;
+                let adddata="";
+                for(x in deleteArr)
+                {
+                    adddata+="<tr><td><input type='checkbox' id='delete' onchange='deleteCheckboxChecked("+count+")'/></td><td><s id='strikethrough'>"+deleteArr[x]+"</s></td></tr>";
+                }
+                document.getElementById("deleteData").innerHTML=adddata;        
+                show();
+            }
+        </script> 
+      
+</html>
