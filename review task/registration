@@ -1,0 +1,158 @@
+
+import React, { useState } from "react";
+
+function App() 
+{
+  const [name, setname] = useState();
+  const [mobileNumber, setmobileNumber] = useState();
+  const [email, setemail] = useState();
+  const [gender, setgender] = useState();
+  const [age, setage] = useState();
+  const [hobby, sethobby] = useState([]);
+  var arr = [...hobby];
+  const [flag,setflag]=useState(0);
+   
+  const checkchange=(val,check)=>{
+    if (check === true) 
+    {
+      arr = [...hobby, val];
+    } 
+    else 
+    {
+      arr.splice(hobby.indexOf(val), 1);
+    }
+    sethobby(arr);
+  };
+  
+  function Validation()
+  {
+    var filter = /^([a-zA-Z0-9\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(name==undefined)
+    {
+      alert("please Enter name");
+    }
+    else if(mobileNumber===undefined)
+    {
+      alert("Please Enter MobileNumber ");
+    }
+    else if(email===undefined)
+    {
+      alert('please enter email');
+    }
+    else if(!filter.test(email))
+    {
+      alert('Please provide a valid email address');
+    }
+    else if(gender===undefined)
+    {
+      alert("please select gender");
+    }
+    else if(hobby===undefined)
+    {
+      alert("Please select hobby");
+    }
+    else
+    {
+      alert("in");
+      if(age===undefined)
+      {
+        setage("you are below 18");
+      }
+      if(name!==undefined)
+      {
+        for(var i=0;i<name.length;i++)
+        {
+          if(name.charCodeAt(i)>=65 && name.charCodeAt(i)<=90 || name.charCodeAt(i)>=97 && name.charCodeAt(i)<=122)
+          {
+            setflag(1);
+          }
+          else
+          {
+            alert("not allow");
+            setflag(0);
+            break;
+          }
+        }
+      }
+      if(mobileNumber!==undefined)
+      {
+        if(mobileNumber.length==10)
+         {
+           for(var j=0;j<mobileNumber.length;j++)
+           {
+            if(mobileNumber.charCodeAt(j)>=48 && mobileNumber.charCodeAt(j)<= 57)
+            {
+              setflag(1);
+            }
+            else
+            { 
+              setflag(0);
+              alert("not allow character");
+              break;
+            }
+          }
+        }
+        else
+        {
+          alert("only enter 10 digits");
+        }
+      }
+    }
+  }
+  return (
+    <div>
+      <table>
+        <tr>
+          <td>Name</td>
+          <td colSpan={2}><input type="text" onChange={(e) => {setname(e.target.value);}}/></td>
+        </tr>
+        <tr>
+          <td>Mobile Noumber</td>
+          <td colSpan={2}><input type="number" onChange={(e) => {setmobileNumber(e.target.value);}}/></td>
+        </tr> 
+        <tr>
+          <td>Email</td>
+          <td colSpan={2}><input type="email" onChange={(e) => {setemail(e.target.value);}}/></td>
+        </tr>
+        <tr>
+          <td>gender</td>
+          <td>Male<input type="radio" value="male" name="gender" onChange={(e)=>{setgender(e.target.value);}}/></td>
+          <td>Female<input type="radio" value="female" name="gender" onChange={(e) => {setgender(e.target.value);}}/></td>
+        </tr>
+        <tr>
+          <td>Age</td>
+          <td colSpan={2}><input type="CheckBox" value={"above 18"} onChange={(e) => {setage(e.target.value);}}/>Above 18</td>
+        </tr>
+        <tr>     
+          <td>Hobby</td>
+          <td colSpan={2}>
+            <input type="checkbox" name="hobby" value="cricket" onChange={(e)=>checkchange(e.target.value,e.target.checked)}/>cricket
+            <input type="checkbox" name="hobby" value="Wollyball" onChange={(e)=>checkchange(e.target.value,e.target.checked)}/>Wollyball
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="3">
+          <button onClick={Validation}>submit</button>
+          </td>
+        </tr>
+      </table>
+      {
+        flag==1?
+          <table border="1">
+            <tbody>
+              <td>{name}</td>
+              <td>{mobileNumber}</td>
+              <td>{email}</td>
+              <td>{gender}</td>
+              <td>{age}</td>
+              <td>{hobby}</td>
+            </tbody>
+          </table>
+        :null
+      }
+    </div>
+  );
+
+}
+
+export default App;
