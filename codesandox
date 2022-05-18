@@ -1,0 +1,32 @@
+import { useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const students = [
+    { name: "Quincy", grade: 96 },
+    { name: "Jason", grade: 84 },
+    { name: "Alexis", grade: 100 },
+    { name: "Sam", grade: 65 },
+    { name: "Katie", grade: 90 }
+  ];
+
+  return (
+    <div>
+      <h1>Hello CodeSandbox</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <table>
+        {students.map((ele) => {
+          if (ele.grade < 90) {
+            return (
+              <tr>
+                <td>{ele.name}</td>
+                <td>{ele.grade}</td>
+              </tr>
+            );
+          }
+        })}
+      </table>
+    </div>
+  );
+}
+
